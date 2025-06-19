@@ -53,4 +53,14 @@ class Home extends BaseController
 
     return view('v_profile', $data);
 }
+
+    public function faq()
+    {
+        return view('v_faq');
+    }
+
+    public function contact()
+    {
+        return view('v_contact');
+    }
 }
