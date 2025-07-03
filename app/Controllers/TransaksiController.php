@@ -33,11 +33,16 @@ class TransaksiController extends BaseController
 
     public function cart_add()
     {
+        $harga_asli = $this->request->getPost('harga');
+        $diskon = session()->get('diskon_nominal') ?? 0;
+        $harga_diskon = max($harga_asli - $diskon, 0);
+
         $this->cart->insert(array(
             'id'        => $this->request->getPost('id'),
             'qty'       => 1,
-            'price'     => $this->request->getPost('harga'),
+            'price'     => $harga_diskon,
             'name'      => $this->request->getPost('nama'),
+            'diskon'    => $diskon,
             'options'   => array('foto' => $this->request->getPost('foto'))
         ));
         session()->setflashdata('success', 'Produk berhasil ditambahkan ke keranjang. (<a href="' . base_url() . 'keranjang">Lihat</a>)');
@@ -160,7 +165,7 @@ public function getCost()
                 'transaction_id' => $last_insert_id,
                 'product_id' => $value['id'],
                 'jumlah' => $value['qty'],
-                'diskon' => 0,
+                'diskon' => $value['diskon'],
                 'subtotal_harga' => $value['qty'] * $value['price'],
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")

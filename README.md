@@ -17,18 +17,32 @@ Proyek ini adalah platform toko online yang dibangun menggunakan [CodeIgniter 4]
 - Keranjang Belanja
   - Tambah/hapus produk
   - Update jumlah produk
+  - Perhitungan otomatis diskon harian
+- Sistem Diskon
+  - Admin bisa menambahkan diskon berdasarkan tanggal (tidak bisa menabahkan di tanggal yang sama)
+  - Validasi: tidak boleh menambahkan diskon dengan tanggal yang sama
+  - Saat login, diskon hari ini disimpan di session dan otomatis dipakai di keranjang
+  - Tanggal diskon tidak bisa diubah saat edit (readonly)
 - Sistem Transaksi
-  - Proses checkout
+  - Proses checkout dengan form alamat dan metode pengiriman
+  - Perhitungan subtotal, diskon, dan total belanja
+  - Simpan transaksi dan detail item ke database
   - Riwayat transaksi
 - Panel Admin
   - Manajemen produk (CRUD)
   - Manajemen kategori
+  - Manajemen data diskon
   - Laporan transaksi
   - Export data ke PDF
 - Sistem Autentikasi
   - Login/Register pengguna
+  - Proteksi halaman berdasarkan role (admin / user)
+  - Redirect otomatis sesuai role
   - Manajemen akun
 - UI Responsif dengan NiceAdmin template
+  - Navigasi sidebar dinamis sesuai role
+  - Tampilan bersih dan profesional
+  - Pemberitahuan diskon hari ini ditampilkan di header
 
 ## Persyaratan Sistem
 
@@ -64,6 +78,9 @@ Proyek ini adalah platform toko online yang dibangun menggunakan [CodeIgniter 4]
    ```bash
    php spark db:seed UserSeeder
    ```
+    ```bash
+   php spark db:seed DiskonSeeder
+   ```
 6. **Jalankan server**
    ```bash
    php spark serve
@@ -79,11 +96,22 @@ Proyek menggunakan struktur MVC CodeIgniter 4:
   - AuthController.php - Autentikasi pengguna
   - ProdukController.php - Manajemen produk
   - TransaksiController.php - Proses transaksi
+  - DiskonController.php – Manajemen diskon
+  - Home.php – Halaman umum (FAQ, Contact, Profile)
 - app/Models - Model untuk interaksi database
   - ProductModel.php - Model produk
   - UserModel.php - Model pengguna
+  - TransaksiModel.php – Data transaksi
+  - DiskonModel.php – Data diskon
 - app/Views - Template dan komponen UI
   - v_produk.php - Tampilan produk
   - v_keranjang.php - Halaman keranjang
+  - v_login.php – Form login
+  - v_diskon.php – Manajemen diskon
+  - v_profile.php – Halaman profil pengguna
+  - template/header.php, template/sidebar.php – Template utama
 - public/img - Gambar produk dan aset
 - public/NiceAdmin - Template admin
+- database/ – File migrasi dan seeder database
+- .env – Konfigurasi environment dan koneksi database
+- composer.json – File dependensi PHP
